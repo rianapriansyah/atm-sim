@@ -1,8 +1,11 @@
-package src.com.mitrais;
+package com.mitrais;
+
+import view.WelcomeScreen;
 
 public class Main {
 
     public static void main(String[] args) {
-	    System.out.println("I am here!");
+        WelcomeScreen screen = new WelcomeScreen();
+        screen.show();
     }
 }
