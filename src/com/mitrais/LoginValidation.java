@@ -6,31 +6,31 @@ public class LoginValidation {
     public List<Account> accountList = DataSource.setAccounts();
 
     public List<Error> ValidateInput(String accNumber, String pin){
-        List<Error> errorMsgs = new ArrayList<Error>();
+        List<Error> errorMessages = new ArrayList<Error>();
         Error err;
+        Account account = DataSource.getAccountByAccountNumberAndPIN(accNumber, pin);
 
         if(accNumber.length() != 6){
             err = new Error(true, "Account Number should have 6 digits length");
-            errorMsgs.add(err);
+            errorMessages.add(err);
         }
         else if(!accNumber.matches("\\d+")){
             err = new Error(true, "Account Number should only contains numbers");
-            errorMsgs.add(err);
+            errorMessages.add(err);
         }
         else if(pin.length() != 6){
             err = new Error(true, "\"PIN should have 6 digits length\"");
-            errorMsgs.add(err);
+            errorMessages.add(err);
         }
         else if(!pin.matches("\\d+")){
             err = new Error(true, "PIN should only contains numbers");
-            errorMsgs.add(err);
+            errorMessages.add(err);
         }
-        Account account = DataSource.getAccountByAccountNumberAndPIN(accNumber, pin);
-        if(account == null){
+        else if(account == null){
             err = new Error(true, "Invalid Account Number/PIN");
-            errorMsgs.add(err);
+            errorMessages.add(err);
         }
 
-        return errorMsgs;
+        return errorMessages;
     }
 }
