@@ -3,7 +3,7 @@ package com.mitrais;
 public class Account {
     private String Name;
     private String PIN;
-    private Double Balance;
+    private Integer Balance;
     private String AccountNumber;
 
     public  String getName(){
@@ -22,11 +22,11 @@ public class Account {
         this.PIN = pin;
     }
 
-    public Double getBalance(){
+    public Integer getBalance(){
         return Balance;
     }
 
-    public void setBalance(Double balance){
+    public void setBalance(Integer balance){
         this.Balance = balance;
     }
 

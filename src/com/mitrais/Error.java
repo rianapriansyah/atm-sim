@@ -9,6 +9,9 @@ public class Error {
         this.ErrorMessage = msg;
     }
 
+    public Error(){
+    }
+
     public boolean getError(){
         return Error;
     }
