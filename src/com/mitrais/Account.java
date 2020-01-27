@@ -5,6 +5,7 @@ public class Account {
     private String PIN;
     private Integer Balance;
     private String AccountNumber;
+    private String ReferenceNumber;
 
     public  String getName(){
         return  Name;
@@ -36,5 +37,13 @@ public class Account {
 
     public void setAccountNumber(String accountNumber){
         this.AccountNumber = accountNumber;
+    }
+
+    public String getReferenceNumber(){
+        return ReferenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber){
+        this.ReferenceNumber = referenceNumber;
     }
 }
