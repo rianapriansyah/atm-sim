@@ -1,6 +1,7 @@
 # ATM Simulation Stage-1
 
-How to build and run ATM Simulation using command line 
+How to build and run ATM Simulation using command line.
+
 Open command line. If you you are using Windows Terminal, make sure you have Git installed on your machine. 
 
 Clone the repository: `git clone https://github.com/rianapriansyah/atm-sim.git atm_simulation`
