@@ -1,8 +1,7 @@
-package com.mitrais;
+package src.com.mitrais;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Scanner;
 
 public class Screen {
@@ -10,30 +9,41 @@ public class Screen {
     Account account = new Account();
     Account destAccount = new Account();
     Integer withdrawAmount = 0;
-    String refNumber = new String();
+    Integer fundTrxAmount = 0;
+    String refNumber = "";
 
     public void showWelcomeScreen(){
         this.welcomeScreen();
     }
 
     private void welcomeScreen(){
-
         Scanner in = new Scanner(System.in);
         System.out.println("Enter Account Number: ");
         String accountNumber = in.next();
+
+        Error errAccount = validation.ValidateAccountNumberOrPin(accountNumber, true);
+        if(errAccount.getError()){
+            System.out.println(errAccount.getErrorMessage());
+            this.welcomeScreen();
+        }
+
         System.out.println("Enter PIN: ");
         String pin = in.next();
 
-        List<Error> errorList = validation.ValidateInput(accountNumber, pin);
-        if(!errorList.isEmpty()){
-            for (Error err: errorList) {
-                System.out.println(err.getErrorMessage());
-                this.welcomeScreen();
-            }
+        Error errPin = validation.ValidateAccountNumberOrPin(pin, false);
+
+        if(errPin.getError()){
+            System.out.println(errPin.getErrorMessage());
+            this.welcomeScreen();
+        }
+
+        this.account = Helper.getAccountByAccountNumberAndPIN(accountNumber, pin);
+        if(this.account != null){
+            this.transactionScreen();
         }
         else {
-            account = Helper.getAccountByAccountNumberAndPIN(accountNumber, pin);
-            this.transactionScreen();
+            System.out.println("Invalid Account Number/PIN");
+            this.welcomeScreen();
         }
     }
 
@@ -64,8 +74,7 @@ public class Screen {
 
     private void fundTransferScreen(){
         Scanner in = new Scanner(System.in);
-        System.out.println("Please enter destination account and press enter to continue or \n" +
-                "press enter to go back to Transaction: ");
+        System.out.println("Please enter destination account and press enter to continue \nor press enter to go back to Transaction: ");
 
         String accountNumber = in.nextLine();
         if(accountNumber.equals("")){
@@ -78,8 +87,12 @@ public class Screen {
             this.fundTransferScreen();
         }
 
-        destAccount = Helper.getAccountByAccountNumber(accountNumber);
+        this.destAccount = Helper.getAccountByAccountNumber(accountNumber);
         if(destAccount == null){
+            System.out.println("Invalid Account");
+            this.fundTransferScreen();
+        }
+        else if(this.account == this.destAccount){
             System.out.println("Invalid Account");
             this.fundTransferScreen();
         }
@@ -90,9 +103,7 @@ public class Screen {
 
     private void fundTransferScreen2(){
         Scanner in = new Scanner(System.in);
-        System.out.print("Please enter transfer amount and \n" +
-                "press enter to continue or \n" +
-                "press enter to go back to Transaction: ");
+        System.out.println("Please enter transfer amount and press enter to continue \nor press enter to go back to Transaction: ");
 
         String amount = in.nextLine();
 
@@ -106,18 +117,23 @@ public class Screen {
             this.fundTransferScreen2();
         }
 
-        int i = Integer.parseInt(amount);
-        if (i > 1000){
+        this.fundTrxAmount = Integer.parseInt(amount);
+        if (this.fundTrxAmount > 1000){
             System.out.println("Maximum amount to withdraw is $1000");
             this.fundTransferScreen2();
         }
 
-        if(i < 1){
+        if(this.fundTrxAmount < 1){
             System.out.println("Minimum amount to withdraw is $1");
             this.fundTransferScreen2();
         }
 
-        this.withdrawAmount = i;
+        Error err = validation.ValidateRemainingBalance(this.account.getBalance(), this.fundTrxAmount);
+        if(err.getError()){
+            System.out.println(err.getErrorMessage());
+            this.transactionScreen();
+        }
+
         this.fundTransferScreen3();
     }
 
@@ -134,14 +150,68 @@ public class Screen {
     }
 
     private void fundTransferScreen4(){
+
         System.out.println("Transfer Confirmation");
-        System.out.println("Destination Account : xxx-xxx-xxx-x");
-        System.out.println("Transfer Amount     : $yy");
-        System.out.println("Reference Number %s%n: ");
-        System.out.println("");
+        System.out.printf("Destination Account : %s%n", this.destAccount.getAccountNumber());
+        System.out.printf("Transfer Amount     : $ %d%n", this.fundTrxAmount);
+        System.out.printf("Reference Number : %s%n", this.refNumber);
+        System.out.println();
         System.out.println("1. Confirm Trx");
         System.out.println("2. Cancel Trx");
         System.out.println("Choose option[2]:");
+
+        Scanner in = new Scanner(System.in);
+
+        String input = in.nextLine();
+        switch (input){
+            case "1":
+                this.transferConfirmation();
+                break;
+            case "2":
+            default:
+                this.welcomeScreen();
+                break;
+        }
+    }
+
+    private void transferConfirmation(){
+        int sourceBalance = this.account.getBalance();
+        int destBalance = this.destAccount.getBalance();
+        Error err = validation.ValidateRemainingBalance(sourceBalance, this.fundTrxAmount);
+        if(err.getError()){
+            System.out.println(err.getErrorMessage());
+            this.transactionScreen();
+        }
+        else {
+            this.account.setBalance(sourceBalance - this.fundTrxAmount);
+            this.destAccount.setBalance(destBalance + this.fundTrxAmount);
+            this.fundTrxSummaryScreen();
+        }
+    }
+
+    private void fundTrxSummaryScreen(){
+        System.out.println("Transfer Confirmation");
+        System.out.printf("Destination Account  : %s%n", this.destAccount.getAccountNumber());
+        System.out.printf("Transfer Amount      : $ %d%n", this.fundTrxAmount);
+        System.out.printf("Reference Number     : %s%n", this.refNumber);
+        System.out.printf("Balance              : $ %d%n", this.account.getBalance());
+        System.out.println();
+        System.out.println("1. Transaction");
+        System.out.println("2. Exit");
+        System.out.println("Choose option[2]:");
+
+        Scanner in = new Scanner(System.in);
+
+        String input = in.nextLine();
+        switch (input) {
+            case "1":
+                this.transactionScreen();
+                break;
+            case "2":
+            default:
+                this.welcomeScreen();
+                break;
+        }
     }
 
     private void withdrawScreen(){
@@ -158,13 +228,16 @@ public class Screen {
         String opt = in.nextLine();
         switch (opt){
             case "1":
-                this.withdraw(currBalance, 10);
+                this.withdrawAmount = 10;
+                this.withdraw(currBalance);
                 break;
             case "2":
-                this.withdraw(currBalance, 50);
+                this.withdrawAmount = 50;
+                this.withdraw(currBalance);
                 break;
             case "3":
-                this.withdraw(currBalance, 100);
+                this.withdrawAmount = 100;
+                this.withdraw(currBalance);
                 break;
             case "4":
                 this.otherWithdrawScreen();
@@ -176,14 +249,15 @@ public class Screen {
         }
     }
 
-    private void withdraw(int balance, int withdrawAmount){
-        Error err = validation.ValidateRemainingBalance(balance, withdrawAmount);
+    private void withdraw(int balance){
+        int w = this.withdrawAmount;
+        Error err = validation.ValidateRemainingBalance(balance, w);
         if(err.getError()){
             System.out.println(err.getErrorMessage());
             this.transactionScreen();
         }
 
-        account.setBalance(balance - withdrawAmount);
+        this.account.setBalance(balance - w);
         this.summaryScreen();
     }
 
@@ -199,13 +273,20 @@ public class Screen {
             System.out.println();
             this.otherWithdrawScreen();
         }
-
-        int i = Integer.parseInt(input);
+        int i = 0;
+        try {
+           i  = Integer.parseInt(input);
+        }
+        catch (NumberFormatException e){
+            System.out.println("Invalid amount");
+            this.otherWithdrawScreen();
+        }
 
         if (i > 1000){
             System.out.println("Maximum amount to withdraw is $1000");
             this.otherWithdrawScreen();
         }
+
         Error err = validation.validateWithdrawTenMultiply(i);
         if(err.getError()){
             System.out.println(err.getErrorMessage());
@@ -218,6 +299,7 @@ public class Screen {
             this.transactionScreen();
         }
 
+        this.withdrawAmount = i;
         account.setBalance(currBalance - i);
         this.summaryScreen();
     }
@@ -228,8 +310,9 @@ public class Screen {
         String dateTimeFormatted = localDateTime.format(dateTimeFormatter);
 
         System.out.println("Summary");
-        System.out.printf("Date: %s%n",  dateTimeFormatted);
-        System.out.printf("Balance: %d\n", account.getBalance());
+        System.out.printf("Date     : %s%n",  dateTimeFormatted);
+        System.out.printf("Withdraw : $ %d\n", this.withdrawAmount);
+        System.out.printf("Balance  : $ %d\n", this.account.getBalance());
         System.out.println();
         System.out.println("1. Transaction");
         System.out.println("2. Exit");
@@ -248,3 +331,4 @@ public class Screen {
         }
     }
 }
+

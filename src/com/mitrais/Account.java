@@ -1,4 +1,4 @@
-package com.mitrais;
+package src.com.mitrais;
 
 public class Account {
     private String Name;
