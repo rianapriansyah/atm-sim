@@ -1,9 +1,8 @@
 package src.com.mitrais;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Validation {
-    public List<Account> accountList = DataSource.setAccounts();
+    public List<Account> accountList = AccountRepository.setAccounts();
 
     public Error ValidateAccountNumberOrPin(String number, boolean isAccountNumber){
         Error err = new Error();

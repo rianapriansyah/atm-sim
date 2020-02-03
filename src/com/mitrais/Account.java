@@ -1,49 +1,49 @@
 package src.com.mitrais;
 
 public class Account {
-    private String Name;
-    private String PIN;
-    private Integer Balance;
-    private String AccountNumber;
-    private String ReferenceNumber;
+    private String name;
+    private String pin;
+    private Integer balance;
+    private String accountNumber;
+    private String refNumber;
 
     public  String getName(){
-        return  Name;
+        return name;
     }
 
     public void setName(String name){
-        this.Name = name;
+        this.name = name;
     }
 
-    public String getPIN(){
-        return PIN;
+    public String getPin(){
+        return pin;
     }
 
-    public void setPIN(String pin){
-        this.PIN = pin;
+    public void setPin(String pin){
+        this.pin = pin;
     }
 
     public Integer getBalance(){
-        return Balance;
+        return balance;
     }
 
     public void setBalance(Integer balance){
-        this.Balance = balance;
+        this.balance = balance;
     }
 
     public String getAccountNumber(){
-        return AccountNumber;
+        return accountNumber;
     }
 
     public void setAccountNumber(String accountNumber){
-        this.AccountNumber = accountNumber;
+        this.accountNumber = accountNumber;
     }
 
-    public String getReferenceNumber(){
-        return ReferenceNumber;
+    public String getRefNumber(){
+        return refNumber;
     }
 
-    public void setReferenceNumber(String referenceNumber){
-        this.ReferenceNumber = referenceNumber;
+    public void setRefNumber(String refNumber){
+        this.refNumber = refNumber;
     }
 }
