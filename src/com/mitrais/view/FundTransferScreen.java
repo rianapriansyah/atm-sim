@@ -17,7 +17,6 @@ public class FundTransferScreen extends BaseScreen {
     private FundTransferSummaryScreen fundTransferSummaryScreen = new FundTransferSummaryScreen();
     TransactionService service = new TransactionServiceImpl();
     Validation validation = new Validation();
-    private WelcomeScreen welcomeScreen = new WelcomeScreen();
     boolean onCurrentScreen = true;
 
     public void show(){
@@ -88,7 +87,6 @@ public class FundTransferScreen extends BaseScreen {
             case "2":
             default:
                 onCurrentScreen = false;
-                welcomeScreen.show();
                 break;
         }
     }

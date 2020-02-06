@@ -3,7 +3,7 @@ package src.com.mitrais.view;
 import src.com.mitrais.dal.AccountDao;
 import src.com.mitrais.dal.AccountDaoImpl;
 
-public class BaseScreen {
+public abstract class BaseScreen {
     AccountDao accountDao;
 
     BaseScreen(){
