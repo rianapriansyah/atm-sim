@@ -22,21 +22,25 @@ public class SummaryScreen {
         String dateTimeFormatted = localDateTime.format(dateTimeFormatter);
 
         if (isFundTransfer) {
-            System.out.println("Transfer Confirmation");
+            System.out.println("==============================================");
+            System.out.println("Fund Transfer Summary");
             System.out.printf("Destination Account  : %s%n", destinationAccount.getAccountNumber());
             System.out.printf("Transfer Amount      : $ %d%n", transactionAmount);
             System.out.printf("Reference Number     : %s%n", refNumber);
             System.out.printf("Balance              : $ %d%n", activeAccount.getBalance());
+            System.out.println("==============================================");
             System.out.println();
             System.out.println("1. Transaction");
             System.out.println("2. Exit");
             System.out.println("Choose option[2]:");
         }
         else {
+            System.out.println("==============================================");
             System.out.println("Summary");
             System.out.printf("Date     : %s%n",  dateTimeFormatted);
             System.out.printf("Withdraw : $ %d\n", transactionAmount);
             System.out.printf("Balance  : $ %d\n", activeAccount.getBalance());
+            System.out.println("==============================================");
             System.out.println();
             System.out.println("1. Transaction");
             System.out.println("2. Exit");
