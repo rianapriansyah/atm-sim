@@ -16,9 +16,8 @@ public class AccountDaoImpl implements AccountDao {
         return  accountDaoInstance;
     }
 
-    //012108
     public AccountDaoImpl(){
-        accountList.add(new Account("John Doe", "112233", 100, "112233"));
+        accountList.add(new Account("John Doe", "012108", 100, "112233"));
         accountList.add(new Account("Jane Doe", "932012", 30, "112244"));
     }
 

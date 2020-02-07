@@ -14,8 +14,6 @@ public class WelcomeScreen extends BaseScreen {
 
     public void show(){
         System.out.println("======================= ATM Simulation =======================");
-        System.out.println("Account Number: 112233");
-        System.out.println("PIN: 012108");
         System.out.println("Enter Account Number: ");
 
         String accountNumber = in.nextLine();
