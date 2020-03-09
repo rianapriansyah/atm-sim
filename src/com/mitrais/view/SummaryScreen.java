@@ -58,7 +58,7 @@ public class SummaryScreen {
             default:
                 onCurrentScreen = false;
                 WelcomeScreen welcomeScreen = new WelcomeScreen();
-                welcomeScreen.show();
+                welcomeScreen.show(activeAccount);
                 break;
         }
     }

@@ -3,19 +3,27 @@ package src.com.mitrais.view;
 import src.com.mitrais.dal.TransactionService;
 import src.com.mitrais.dal.TransactionServiceImpl;
 import src.com.mitrais.utils.Helper;
+import src.com.mitrais.utils.Validation;
 
 import java.util.Scanner;
 
 import static src.com.mitrais.utils.Helper.activeAccount;
+import static src.com.mitrais.utils.Helper.transactionAmount;
 
 public class WithdrawScreen {
     private Scanner in = new Scanner(System.in);
     TransactionService service = new TransactionServiceImpl();
     OtherWithdrawScreen otherWithdrawScreen = new OtherWithdrawScreen();
+    Validation validation = new Validation();
     boolean onCurrentScreen = true;
     public void show(){
         do{
-            screen();
+            try{
+                screen();
+            }
+            catch (IllegalArgumentException ex){
+                System.out.println(ex.getMessage());
+            }
         }
         while (onCurrentScreen);
     }
@@ -28,7 +36,6 @@ public class WithdrawScreen {
         System.out.println("4. Other");
         System.out.println("5. Back");
         System.out.println("Please choose option[5]:");
-
 
         String opt = in.nextLine();
         switch (opt){

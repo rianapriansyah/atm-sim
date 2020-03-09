@@ -12,13 +12,13 @@ public class WelcomeScreen extends BaseScreen {
     private TransactionScreen transactionScreen = new TransactionScreen();
     Validation validation = new Validation();
 
-    public void show(){
+    public void show(Account account){
         System.out.println("======================= ATM Simulation =======================");
         System.out.println("Enter Account Number: ");
 
         String accountNumber = in.nextLine();
 
-        List<String> errAccount = validation.ValidateAccountNumberOrPin(accountNumber, true);
+        List<String> errAccount = validation.validateAccountNumberOrPin(accountNumber, true);
         if(!errAccount.isEmpty()){
             for (String error : errAccount) {
                 System.out.println(">> " + error);
@@ -29,19 +29,25 @@ public class WelcomeScreen extends BaseScreen {
         System.out.println("Enter PIN: ");
         String pin = in.nextLine();
 
-        errAccount = validation.ValidateAccountNumberOrPin(pin, false);
+        errAccount = validation.validateAccountNumberOrPin(pin, false);
         if(!errAccount.isEmpty()){
             for (String error : errAccount) {
                 System.out.println(">> " + error);
                 return;
             }
         }
-        Account account = accountDao.getLoginAccount(accountNumber, pin);
+
         if(account == null){
-            Helper.resetActiveAccount();
-            System.out.println(">> Invalid Account Number/PIN");
-            return;
-        } else {
+            try{
+                account = accountDao.getLoginAccount(accountNumber, pin);
+                Helper.logAccountIn(account);
+                transactionScreen.show();
+            }
+            catch (RuntimeException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+        else{
             Helper.logAccountIn(account);
             transactionScreen.show();
         }

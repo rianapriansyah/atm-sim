@@ -10,7 +10,7 @@ public class Main {
 
         WelcomeScreen welcomeScreen = new WelcomeScreen();
         do{
-            welcomeScreen.show();
+            welcomeScreen.show(null);
         }
         while (true);
     }

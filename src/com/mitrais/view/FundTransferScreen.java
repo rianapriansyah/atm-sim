@@ -39,10 +39,14 @@ public class FundTransferScreen extends BaseScreen {
             return;
         }
 
+
         Account destAccount = accountDao.getAccountByAccNumber(accountNumber);
         if(destAccount == null){
             System.out.println(">> Invalid account");
             return;
+        }
+        else if(destAccount == activeAccount){
+            System.out.println(">> Invalid account");
         }
         else {
             Helper.setDestinationAccount(destAccount);

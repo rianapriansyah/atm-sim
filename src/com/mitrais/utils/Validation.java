@@ -3,9 +3,12 @@ package src.com.mitrais.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static src.com.mitrais.utils.Helper.activeAccount;
+import static src.com.mitrais.utils.Helper.transactionAmount;
+
 public class Validation {
 
-    public List<String> ValidateAccountNumberOrPin(String number, boolean isAccountNumber){
+    public List<String> validateAccountNumberOrPin(String number, boolean isAccountNumber){
         List<String> errors = new ArrayList<>();
         String head;
         if(isAccountNumber){
@@ -25,12 +28,6 @@ public class Validation {
         return errors;
     }
 
-    public void validateWithdrawTenMultiply(int withdrawAmount){
-        if(withdrawAmount%10 != 0){
-            System.out.println(">> Invalid amount");
-            return;
-        }
-    }
 
     public boolean validateFundTrxAmount(String amount){
         if (amount.isEmpty()) {

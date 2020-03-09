@@ -16,7 +16,12 @@ public class OtherWithdrawScreen {
     boolean onCurrentScreen = true;
     public void show(){
         do{
-            screen();
+            try{
+                screen();
+            }
+            catch (IllegalArgumentException ex){
+                System.out.println(ex.getMessage());
+            }
         }
         while (onCurrentScreen);
     }
