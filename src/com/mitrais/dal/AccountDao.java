@@ -1,6 +1,7 @@
 package src.com.mitrais.dal;
 
 import src.com.mitrais.model.Account;
+import src.com.mitrais.utils.AccountNotFoundException;
 
 import java.util.List;
 

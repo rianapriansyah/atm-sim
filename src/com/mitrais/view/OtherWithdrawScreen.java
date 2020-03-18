@@ -39,14 +39,14 @@ public class OtherWithdrawScreen {
         }
         int i = 0;
         try {
-            i  = Integer.valueOf(input);
+            i  = Integer.parseInt(input);
         }
         catch (NumberFormatException e){
             System.out.println(">> Invalid amount");
             this.show();
         }
 
-        service.calculateWithdrawalBalance(activeAccount, i);
+        service.setBalance(activeAccount, i);
         onCurrentScreen = false;
     }
 }

@@ -3,6 +3,7 @@ package src.com.mitrais.view;
 import src.com.mitrais.dal.TransactionService;
 import src.com.mitrais.dal.TransactionServiceImpl;
 import src.com.mitrais.model.Account;
+import src.com.mitrais.utils.AccountNotFoundException;
 import src.com.mitrais.utils.Helper;
 import src.com.mitrais.utils.Validation;
 
@@ -20,16 +21,15 @@ public class FundTransferScreen extends BaseScreen {
     boolean onCurrentScreen = true;
     String amount;
 
-    public void show(){
+    public void show() {
         do{
             screen();
-            showConfirmationScreen(Integer.valueOf(amount));
         }
         while (onCurrentScreen);
 
     }
 
-    private void screen(){
+    private void screen() {
         Helper.showBase();
         System.out.println("Please enter destination account and press enter to continue \nor press enter to go back to Transaction: ");
 
@@ -40,12 +40,16 @@ public class FundTransferScreen extends BaseScreen {
         }
 
 
-        Account destAccount = accountDao.getAccountByAccNumber(accountNumber);
-        if(destAccount == null){
-            System.out.println(">> Invalid account");
+        Account destAccount;
+        try{
+            destAccount = accountDao.getAccountByAccNumber(accountNumber);
+        }
+        catch (AccountNotFoundException ex){
+            System.out.println(ex.getMessage());
             return;
         }
-        else if(destAccount == activeAccount){
+
+        if(destAccount == activeAccount){
             System.out.println(">> Invalid account");
         }
         else {
@@ -61,6 +65,7 @@ public class FundTransferScreen extends BaseScreen {
         }
         refNumber = Helper.generateReferenceNumber().toString();
         showRefNumberScreen(refNumber);
+        showConfirmationScreen(Integer.valueOf(amount));
     }
 
     private void showRefNumberScreen(String refNumber){

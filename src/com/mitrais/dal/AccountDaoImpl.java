@@ -1,6 +1,7 @@
 package src.com.mitrais.dal;
 
 import src.com.mitrais.model.Account;
+import src.com.mitrais.utils.AccountNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +29,12 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account getLoginAccount(String accNumber, String pin) {
-        return accountList.stream().filter(account -> accNumber.equals(account.getAccountNumber()) && pin.equals(account.getPin())).findAny().orElseThrow(()-> new RuntimeException(">> Account not found"));
+        return accountList.stream().filter(account -> accNumber.equals(account.getAccountNumber()) && pin.equals(account.getPin())).findAny().orElseThrow(()-> new AccountNotFoundException(">> Account not found"));
     }
 
     @Override
-    public Account getAccountByAccNumber(String accNumber) {
-        return accountList.stream().filter(account -> accNumber.equals(account.getAccountNumber())).findAny().orElseThrow(()-> new RuntimeException(">> Invalid account"));
+    public Account getAccountByAccNumber(String accNumber){
+        return accountList.stream().filter(account -> accNumber.equals(account.getAccountNumber())).findAny().orElseThrow(()-> new AccountNotFoundException(">> Invalid account"));
     }
 
     @Override

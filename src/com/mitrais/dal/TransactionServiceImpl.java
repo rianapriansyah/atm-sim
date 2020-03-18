@@ -11,7 +11,7 @@ import static src.com.mitrais.utils.Helper.generateReferenceNumber;
 public class TransactionServiceImpl implements TransactionService {
     SummaryScreen summaryScreen = new SummaryScreen();
     @Override
-    public void calculateWithdrawalBalance(Account actAccount, int withdrawAmount) {
+    public void setBalance(Account actAccount, int withdrawAmount) {
 
         int balance = actAccount.getBalance() - withdrawAmount;
         if (withdrawAmount > 1000){

@@ -8,7 +8,6 @@ import src.com.mitrais.utils.Validation;
 import java.util.Scanner;
 
 import static src.com.mitrais.utils.Helper.activeAccount;
-import static src.com.mitrais.utils.Helper.transactionAmount;
 
 public class WithdrawScreen {
     private Scanner in = new Scanner(System.in);
@@ -40,13 +39,13 @@ public class WithdrawScreen {
         String opt = in.nextLine();
         switch (opt){
             case "1":
-                service.calculateWithdrawalBalance(activeAccount, 10);
+                service.setBalance(activeAccount, 10);
                 break;
             case "2":
-                service.calculateWithdrawalBalance(activeAccount, 50);
+                service.setBalance(activeAccount, 50);
                 break;
             case "3":
-                service.calculateWithdrawalBalance(activeAccount, 100);
+                service.setBalance(activeAccount, 100);
                 break;
             case "4":
                 onCurrentScreen = false;

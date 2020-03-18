@@ -1,6 +1,7 @@
 package src.com.mitrais.view;
 
 import src.com.mitrais.model.Account;
+import src.com.mitrais.utils.AccountNotFoundException;
 import src.com.mitrais.utils.Helper;
 import src.com.mitrais.utils.Validation;
 
@@ -18,23 +19,19 @@ public class WelcomeScreen extends BaseScreen {
 
         String accountNumber = in.nextLine();
 
-        List<String> errAccount = validation.validateAccountNumberOrPin(accountNumber, true);
-        if(!errAccount.isEmpty()){
-            for (String error : errAccount) {
-                System.out.println(">> " + error);
-                return;
-            }
+        String validationMessage = validation.validateAccountNumberOrPin(accountNumber, true);
+        if(!validationMessage.equals("")){
+            System.out.println(">> " + validationMessage);
+            return;
         }
 
         System.out.println("Enter PIN: ");
         String pin = in.nextLine();
 
-        errAccount = validation.validateAccountNumberOrPin(pin, false);
-        if(!errAccount.isEmpty()){
-            for (String error : errAccount) {
-                System.out.println(">> " + error);
-                return;
-            }
+        validationMessage = validation.validateAccountNumberOrPin(pin, false);
+        if(!validationMessage.equals("")){
+            System.out.println(">> " + validationMessage);
+            return;
         }
 
         if(account == null){
@@ -43,7 +40,7 @@ public class WelcomeScreen extends BaseScreen {
                 Helper.logAccountIn(account);
                 transactionScreen.show();
             }
-            catch (RuntimeException ex){
+            catch (AccountNotFoundException ex){
                 System.out.println(ex.getMessage());
             }
         }

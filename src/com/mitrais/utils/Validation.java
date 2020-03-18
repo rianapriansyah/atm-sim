@@ -8,8 +8,7 @@ import static src.com.mitrais.utils.Helper.transactionAmount;
 
 public class Validation {
 
-    public List<String> validateAccountNumberOrPin(String number, boolean isAccountNumber){
-        List<String> errors = new ArrayList<>();
+    public String validateAccountNumberOrPin(String number, boolean isAccountNumber){
         String head;
         if(isAccountNumber){
             head = "Account Number";
@@ -18,11 +17,12 @@ public class Validation {
             head = "PIN";
         }
 
+        String errors = "";
         if(!number.matches("\\d+")){
-            errors.add(head + " should only contains numbers  \n");
+            errors = head + " should only contains numbers  \n";
         }
         else if(number.length() != 6){
-            errors.add(head + " should have 6 digits length");
+            errors = head + " should have 6 digits length \n";
         }
 
         return errors;
@@ -39,7 +39,7 @@ public class Validation {
             return false;
         }
 
-        int fundTrxAmount = Integer.valueOf(amount);
+        int fundTrxAmount = Integer.parseInt(amount);
         if (fundTrxAmount > 1000){
             System.out.println(">> Maximum amount to withdraw is $1000");
             return false;
