@@ -1,13 +1,21 @@
-package src.com.mitrais;
+package src.com.mitrais.model;
 
 public class Account {
     private String name;
     private String pin;
     private Integer balance;
     private String accountNumber;
-    private String refNumber;
 
-    public  String getName(){
+    public Account(){ }
+
+    public Account(String name, String pin, int balance, String accountNumber){
+        this.name = name;
+        this.pin = pin;
+        this.balance = balance;
+        this.accountNumber = accountNumber;
+    }
+
+    public String getName(){
         return name;
     }
 
@@ -24,7 +32,7 @@ public class Account {
     }
 
     public Integer getBalance(){
-        return balance;
+        return this.balance;
     }
 
     public void setBalance(Integer balance){
@@ -37,13 +45,5 @@ public class Account {
 
     public void setAccountNumber(String accountNumber){
         this.accountNumber = accountNumber;
-    }
-
-    public String getRefNumber(){
-        return refNumber;
-    }
-
-    public void setRefNumber(String refNumber){
-        this.refNumber = refNumber;
     }
 }
